@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Web Calculator • Menu</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app">
+    <div class="calculator" aria-label="Calculator">
+      <header class="calc-header">
+        <h1>Calculator</h1>
+        <div class="menu">
+          <button class="menu-trigger" id="menuTrigger" aria-haspopup="true" aria-expanded="false" aria-controls="menuList" title="More options">
+            <span class="dot" aria-hidden="true"></span>
+            <span class="dot" aria-hidden="true"></span>
+            <span class="dot" aria-hidden="true"></span>
+            <span class="sr-only">Open menu</span>
+          </button>
+          <ul id="menuList" class="menu-list" role="menu" aria-label="Calculator menu">
+            <li role="none"><button role="menuitem" data-action="toggle-scientific">Scientific Mode</button></li>
+            <li role="none"><button role="menuitem" data-action="open-unit">Unit Conversion</button></li>
+            <li role="none"><button role="menuitem" data-action="open-currency">Currency Conversion</button></li>
+          </ul>
+        </div>
+      </header>
+
+      <div class="display">
+        <input id="display" type="text" inputmode="decimal" autocomplete="off" aria-label="Calculation display" readonly />
+      </div>
+
+      <div id="angleControls" class="deg-rad hidden" aria-live="polite">
+        <label class="toggle" title="Toggle Degrees / Radians">
+          <input type="checkbox" id="radToggle" />
+          <span class="slider"></span>
+          <span id="angleLabel">DEG</span>
+        </label>
+      </div>
+
+      <div class="keys" id="basicKeys" aria-label="Basic keypad">
+        <button data-key="C" class="key action">C</button>
+        <button data-key="⌫" class="key action" title="Backspace">⌫</button>
+        <button data-key="(" class="key">(</button>
+        <button data-key=")" class="key">)</button>
+
+        <button data-key="7" class="key">7</button>
+        <button data-key="8" class="key">8</button>
+        <button data-key="9" class="key">9</button>
+        <button data-key="/" class="key op">÷</button>
+
+        <button data-key="4" class="key">4</button>
+        <button data-key="5" class="key">5</button>
+        <button data-key="6" class="key">6</button>
+        <button data-key="*" class="key op">×</button>
+
+        <button data-key="1" class="key">1</button>
+        <button data-key="2" class="key">2</button>
+        <button data-key="3" class="key">3</button>
+        <button data-key="-" class="key op">−</button>
+
+        <button data-key="0" class="key">0</button>
+        <button data-key="." class="key">.</button>
+        <button data-key="%" class="key op">%</button>
+        <button data-key="+" class="key op">+</button>
+
+        <button data-key="=" class="key equals">=</button>
+      </div>
+
+      <div class="keys scientific hidden" id="sciKeys" aria-label="Scientific keypad">
+        <button data-key="pi" class="key">π</button>
+        <button data-key="e" class="key">e</button>
+        <button data-key="^" class="key op">x^y</button>
+        <button data-key="sqrt" class="key">√</button>
+        
+        <button data-key="sin" class="key">sin</button>
+        <button data-key="cos" class="key">cos</button>
+        <button data-key="tan" class="key">tan</button>
+        <button data-key="sq" class="key">x²</button>
+
+        <button data-key="log" class="key">log</button>
+        <button data-key="ln" class="key">ln</button>
+        <button data-key="fact" class="key">x!</button>
+        <button data-key="," class="key" title="Comma for functions">,</button>
+      </div>
+    </div>
+
+    <!-- Unit Conversion Panel -->
+    <aside id="panelUnit" class="side-panel hidden" aria-labelledby="unitTitle" tabindex="-1">
+      <div class="panel-header">
+        <h2 id="unitTitle">Unit Conversion</h2>
+        <button class="panel-close" data-close-panel>&times;</button>
+      </div>
+      <div class="tabs" role="tablist">
+        <button role="tab" aria-selected="true" aria-controls="tab-length" id="tabBtn-length" class="tab">Length</button>
+        <button role="tab" aria-selected="false" aria-controls="tab-weight" id="tabBtn-weight" class="tab">Weight</button>
+        <button role="tab" aria-selected="false" aria-controls="tab-temp" id="tabBtn-temp" class="tab">Temperature</button>
+      </div>
+      <section id="tab-length" role="tabpanel" aria-labelledby="tabBtn-length" class="tab-panel">
+        <div class="conv-row">
+          <input type="number" id="lenAmount" placeholder="Value" />
+          <select id="lenFrom"></select>
+          <button class="swap" data-swap="len">⇄</button>
+          <select id="lenTo"></select>
+        </div>
+        <div class="conv-result" id="lenResult">Result: —</div>
+      </section>
+      <section id="tab-weight" role="tabpanel" aria-labelledby="tabBtn-weight" class="tab-panel hidden">
+        <div class="conv-row">
+          <input type="number" id="wAmount" placeholder="Value" />
+          <select id="wFrom"></select>
+          <button class="swap" data-swap="w">⇄</button>
+          <select id="wTo"></select>
+        </div>
+        <div class="conv-result" id="wResult">Result: —</div>
+      </section>
+      <section id="tab-temp" role="tabpanel" aria-labelledby="tabBtn-temp" class="tab-panel hidden">
+        <div class="conv-row">
+          <input type="number" id="tAmount" placeholder="Value" />
+          <select id="tFrom"></select>
+          <button class="swap" data-swap="t">⇄</button>
+          <select id="tTo"></select>
+        </div>
+        <div class="conv-result" id="tResult">Result: —</div>
+      </section>
+    </aside>
+
+    <!-- Currency Conversion Panel -->
+    <aside id="panelCurrency" class="side-panel hidden" aria-labelledby="currencyTitle" tabindex="-1">
+      <div class="panel-header">
+        <h2 id="currencyTitle">Currency Conversion</h2>
+        <button class="panel-close" data-close-panel>&times;</button>
+      </div>
+      <div class="conv-row">
+        <input type="number" id="curAmount" placeholder="Amount" />
+        <select id="curFrom"></select>
+        <button class="swap" data-swap="cur">⇄</button>
+        <select id="curTo"></select>
+      </div>
+      <div class="conv-result" id="curResult">Result: —</div>
+      <p class="note">Rates are static for demo purposes only. Update in <code>script.js</code> if needed.</p>
+    </aside>
+  </div>
+
+  <footer class="footer">
+    <small>Web Calculator with submenu • Lab 07</small>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
